@@ -24,7 +24,7 @@ class TaskController extends Controller
             'description' => 'required',
         ]);
         Task::create($request->all());
-       return redirect()->route('tasks.index')->with('success', 'Nueva tarea creada exitosamente');
+        return redirect()->route('tasks.index')->with('success', 'Nueva tarea creada exitosamente');
     }
     public function show(Task $task)
     {
@@ -32,14 +32,21 @@ class TaskController extends Controller
     }
     public function edit(Task $task)
     {
-        //
+        return view('edit', ['task' => $task]);
     }
     public function update(Request $request, Task $task)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+        $task->update($request->all());
+        return redirect()->route('tasks.index')->with('success', 'Tarea editada exitosamente');
     }
     public function destroy(Task $task)
     {
-        //
+       $task->delete(); 
+        return redirect()->route('tasks.index')->with('success', 'Tarea eliminada exitosamente');
+        
     }
 }
